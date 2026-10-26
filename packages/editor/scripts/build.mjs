@@ -3,7 +3,7 @@ import { rm } from 'node:fs/promises';
 
 await rm('dist', { recursive: true, force: true });
 await build({
-  entryPoints: ['src/index.ts'],
+  entryPoints: ['src/index.ts', 'src/renderer.ts'],
   outdir: 'dist',
   bundle: true,
   packages: 'external',

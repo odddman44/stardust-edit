@@ -4,10 +4,23 @@
   "description": "React에서 사용하는 Cosmoslog 블록 에디터",
   "type": "module",
   "license": "MIT",
-  "files": ["dist", "README.md", "LICENSE"],
-  "sideEffects": ["**/*.css"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./renderer": {
+      "types": "./dist/renderer.d.ts",
+      "import": "./dist/renderer.js"
+    }
   },
   "scripts": {
     "build": "node scripts/build.mjs && tsc --emitDeclarationOnly",
@@ -15,9 +28,18 @@
   },
   "dependencies": {
     "@tiptap/core": "3.32.0",
+    "@tiptap/extension-list": "3.32.0",
     "@tiptap/pm": "3.32.0",
+    "@tiptap/react": "3.32.0",
     "@tiptap/starter-kit": "3.32.0",
-    "@tiptap/extension-list": "3.32.0"
+    "@tiptap/static-renderer": "3.32.0"
   },
-  "peerDependencies": { "react": "^19.0.0", "react-dom": "^19.0.0" }
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
 }
