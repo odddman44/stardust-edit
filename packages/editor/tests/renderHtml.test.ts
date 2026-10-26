@@ -8,6 +8,13 @@ const document = { version: 1, content: { type: 'doc', content: [
 ] } };
 
 describe('서버 읽기 렌더러', () => {
+  it.each(['opener', 'nofollow OpEnEr', 'noopener\topener'])('원래 창 접근을 허용하는 링크 관계를 거부한다: %s', rel => {
+    const input = { version: 1, content: { type: 'doc', content: [
+      { type: 'paragraph', content: [{ type: 'text', text: '외부 링크', marks: [{ type: 'link', attrs: { href: 'https://example.com', target: '_blank', rel } }] }] }
+    ] } };
+    expect(renderDocumentToHtml(input)).toMatchObject({ ok: false, error: { code: 'INVALID_DOCUMENT' } });
+  });
+
   it('한글과 기본 블록을 편집 UI 없이 출력한다', () => {
     const result = renderDocumentToHtml(document);
     expect(result.ok).toBe(true);

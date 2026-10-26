@@ -15,7 +15,7 @@ import FileHandler from '@tiptap/extension-file-handler';
 import type { CosmosEditorProps } from './types.js';
 
 export function CosmosEditor(props: CosmosEditorProps) {
-  const [initial] = useState(() => parseDocument(props.initialDocument ?? createEmptyDocument()));
+  const [initial] = useState(() => parseDocument(props.initialDocument === undefined ? createEmptyDocument() : props.initialDocument));
   const callbacks = useRef(props);
   callbacks.current = props;
   const [uploads] = useState(() => createEditorUploads(() => callbacks.current));

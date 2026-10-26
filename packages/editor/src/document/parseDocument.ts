@@ -51,6 +51,8 @@ function checkNode(value: unknown, path: string, depth = 0): EditorError | undef
       const markError = checkAttrs(mark.attrs, schema.marks[mark.type].spec.attrs, `${path}.marks`);
       if (markError) return markError;
       if (mark.type === 'link' && (!record(mark.attrs) || typeof mark.attrs.href !== 'string' || !isSafeLinkUrl(mark.attrs.href))) return error('UNSAFE_URL', path);
+      if (mark.type === 'link' && record(mark.attrs) && typeof mark.attrs.rel === 'string'
+        && mark.attrs.rel.toLowerCase().split(/[\t\n\f\r ]+/).includes('opener')) return error('INVALID_DOCUMENT', `${path}.marks`);
     }
   }
   if (value.content !== undefined) {

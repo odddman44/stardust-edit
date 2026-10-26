@@ -10,6 +10,18 @@ afterEach(cleanup);
 const initial: CosmosDocument = { version: 1, content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: '서울 여행' }] }] } };
 
 describe('React 편집기 수명', () => {
+  it('런타임 null 문서를 새 문서로 바꾸지 않는다', async () => {
+    const ref = createRef<CosmosEditorHandle>();
+    const onChange = vi.fn();
+    const onError = vi.fn();
+    render(<CosmosEditor initialDocument={null as unknown as CosmosDocument} ref={ref} onChange={onChange} onError={onError} />);
+    await waitFor(() => expect(screen.getByRole('alert')).toBeTruthy());
+    expect(screen.queryByRole('textbox')).toBeNull();
+    expect(ref.current?.getDocument()).toMatchObject({ ok: false, error: { code: 'INVALID_DOCUMENT' } });
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith(expect.objectContaining({ code: 'INVALID_DOCUMENT' }));
+  });
+
   it('초기 문서를 표시하고 선택 이동이나 재렌더로 초기화하지 않는다', async () => {
     const ref = createRef<CosmosEditorHandle>();
     const onChange = vi.fn();
