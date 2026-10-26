@@ -1,4 +1,5 @@
 import type { Editor } from '@tiptap/core';
+import { createColumns } from './columnCommands.js';
 
 export type BlockAction = { id: string; label: string; hint: string; run: (editor: Editor) => boolean };
 export const blockActions: BlockAction[] = [
@@ -11,5 +12,6 @@ export const blockActions: BlockAction[] = [
   { id: 'taskList', label: '체크리스트', hint: '[]', run: editor => editor.chain().focus().toggleTaskList().run() },
   { id: 'blockquote', label: '인용', hint: '>', run: editor => editor.chain().focus().toggleBlockquote().run() },
   { id: 'codeBlock', label: '코드 블록', hint: '```', run: editor => editor.chain().focus().toggleCodeBlock().run() },
-  { id: 'horizontalRule', label: '구분선', hint: '---', run: editor => editor.chain().focus().setHorizontalRule().run() }
+  { id: 'horizontalRule', label: '구분선', hint: '---', run: editor => editor.chain().focus().setHorizontalRule().run() },
+  { id: 'columns', label: '2열 만들기', hint: '사진 + 글', run: createColumns }
 ];

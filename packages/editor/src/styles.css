@@ -75,6 +75,16 @@
 .cosmos-upload > img { max-width: 100%; max-height: 220px; display: block; border-radius: 4px; opacity: .55; }
 .cosmos-upload-status { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding-top: 8px; color: var(--cosmos-muted); font-size: 12px; }
 .cosmos-upload-status button { font-size: 12px; border: 1px solid var(--cosmos-line); padding: 6px 10px; background: var(--cosmos-surface); color: var(--cosmos-text); border-radius: 4px; min-height: 38px; }
+.cosmos-columns { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; margin: 1.5em 0; }
+.cosmos-column { min-width: 0; border: 1px solid transparent; padding: 12px; border-radius: 5px; }
+.cosmos-column > :first-child { margin-top: 0; }
+.cosmos-editor .cosmos-column { border-color: var(--cosmos-line); border-style: dashed; }
+.cosmos-editor .cosmos-column:focus-within { border-color: var(--cosmos-muted); }
+.cosmos-column .cosmos-image { margin: .3em 0 1em; }
+.cosmos-block-menu button:disabled { opacity: .4; cursor: default; }
+@container (min-width: 768px) {
+  .cosmos-columns { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
 @media (prefers-color-scheme: dark) {
   .cosmos-editor, .cosmos-document {
     --cosmos-text: #e9e4dc;

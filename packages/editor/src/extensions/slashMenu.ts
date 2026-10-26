@@ -5,6 +5,7 @@ import { SlashMenu } from '../react/SlashMenu.js';
 import type { SlashMenuHandle } from '../react/SlashMenu.js';
 import { blockActions } from './blockActions.js';
 import type { BlockAction } from './blockActions.js';
+import { getSelectedColumns } from './columnCommands.js';
 
 const key = new PluginKey('cosmosSlashMenu');
 
@@ -18,7 +19,8 @@ export function createSlashMenu() {
         char: '/',
         startOfLine: true,
         allow: ({ state }) => !this.editor.view.composing && !state.selection.$from.parent.type.spec.code,
-        items: ({ query }) => blockActions.filter(item => `${item.label} ${item.id}`.toLowerCase().includes(query.toLowerCase())),
+        items: ({ query }) => blockActions.filter(item => item.id !== 'columns' || !getSelectedColumns(this.editor))
+          .filter(item => `${item.label} ${item.id}`.toLowerCase().includes(query.toLowerCase())),
         command: ({ editor, range, props }) => {
           editor.chain().focus().deleteRange(range).run();
           props.run(editor);

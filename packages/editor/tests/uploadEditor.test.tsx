@@ -89,4 +89,25 @@ describe('이미지 편집 흐름', () => {
     await waitFor(() => expect(ref.current?.getDocument()).toMatchObject({ ok: true }));
     expect(JSON.stringify(ref.current?.getDocument())).not.toContain('/previous-document.png');
   });
+
+  it('사진 업로드 중 열을 해제해도 원래 자리에서 완료한다', async () => {
+    let resolve!: (result: { url: string }) => void;
+    const ref = createRef<CosmosEditorHandle>();
+    const initial: CosmosDocument = { version: 1, content: { type: 'doc', content: [{ type: 'columns', content: [
+      { type: 'column', content: [{ type: 'paragraph' }] },
+      { type: 'column', content: [{ type: 'paragraph', content: [{ type: 'text', text: '오른쪽 본문' }] }] }
+    ] }] } };
+    render(<CosmosEditor ref={ref} initialDocument={initial} uploadImage={() => new Promise(accept => { resolve = accept; })} />);
+    await screen.findByRole('textbox', { name: '문서 본문' });
+    fireEvent.change(screen.getByLabelText('사진 파일'), { target: { files: [file()] } });
+    await waitFor(() => expect(resolve).toBeTypeOf('function'));
+    fireEvent.click(screen.getByRole('button', { name: '블록 메뉴', exact: true }));
+    fireEvent.click(await screen.findByRole('menuitem', { name: '열 해제' }));
+    resolve({ url: '/moved.png' });
+    await waitFor(() => expect(ref.current?.getDocument()).toMatchObject({ ok: true }));
+    const result = ref.current!.getDocument();
+    expect(JSON.stringify(result)).not.toContain('columns');
+    expect(JSON.stringify(result)).toContain('/moved.png');
+    expect(JSON.stringify(result).indexOf('/moved.png')).toBeLessThan(JSON.stringify(result).indexOf('오른쪽 본문'));
+  });
 });

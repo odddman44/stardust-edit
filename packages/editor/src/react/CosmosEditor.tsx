@@ -31,6 +31,11 @@ export function CosmosEditor(props: CosmosEditorProps) {
       onDrop: (instance, files, pos) => uploads.addFiles(instance, files, pos)
     }),
     createSlashMenu(), DragHandle.configure({
+      nested: {
+        defaultRules: false,
+        edgeDetection: 'none',
+        rules: [{ id: 'cosmos-block-boundary', evaluate: ({ parent }) => ['doc', 'column'].includes(parent?.type.name ?? '') ? 0 : 1000 }]
+      },
       render: () => {
         const handle = document.createElement('div');
         handle.className = 'cosmos-editor cosmos-drag-handle';

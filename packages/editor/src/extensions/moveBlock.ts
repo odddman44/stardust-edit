@@ -19,8 +19,32 @@ export function getSelectedBlock(editor: Editor) {
 
 export function moveSelectedBlock(editor: Editor, direction: 'up' | 'down' | 'otherColumn'): boolean {
   const selected = getSelectedBlock(editor);
-  if (!selected || direction === 'otherColumn') return false;
+  if (!selected) return false;
   const { node, pos, parent, index } = selected;
+  if (direction === 'otherColumn') {
+    if (parent.type.name !== 'column') return false;
+    const boundary = editor.state.doc.resolve(selected.parentPos - 1);
+    const row = boundary.parent;
+    const rowPos = boundary.before();
+    const sourceIndex = boundary.index();
+    const targetIndex = 1 - sourceIndex;
+    const children: import('@tiptap/pm/model').Node[][] = [[], []];
+    row.forEach((column, _offset, columnIndex) => column.forEach((block, _blockOffset, blockIndex) => {
+      if (columnIndex !== sourceIndex || blockIndex !== index) children[columnIndex].push(block);
+    }));
+    const target = children[targetIndex];
+    if (target.length === 1 && target[0].type.name === 'paragraph' && target[0].content.size === 0) target.length = 0;
+    target.push(node);
+    if (!children[sourceIndex].length) children[sourceIndex].push(editor.schema.nodes.paragraph.create());
+    const updated = row.type.create(null, children.map(blocks => editor.schema.nodes.column.create(null, blocks)));
+    const tr = editor.state.tr.replaceWith(rowPos, rowPos + row.nodeSize, updated);
+    const targetStart = rowPos + 2 + (targetIndex === 1 ? updated.firstChild!.nodeSize : 0);
+    const blockStart = targetStart + target.slice(0, -1).reduce((size, block) => size + block.nodeSize, 0);
+    tr.setSelection(node.isAtom ? NodeSelection.create(tr.doc, blockStart) : TextSelection.near(tr.doc.resolve(blockStart + 1)));
+    editor.view.dispatch(tr.scrollIntoView());
+    editor.commands.focus();
+    return true;
+  }
   const adjacentIndex = index + (direction === 'up' ? -1 : 1);
   if (adjacentIndex < 0 || adjacentIndex >= parent.childCount) return false;
   const adjacent = parent.child(adjacentIndex);
