@@ -18,6 +18,7 @@ export function EditorDemo() {
   const [status, setStatus] = useState('이 기기에만 저장됩니다');
   const [preview, setPreview] = useState<string | null>(null);
   const [previewBusy, setPreviewBusy] = useState(false);
+  const [exportMessage, setExportMessage] = useState('');
   const ref = useRef<CosmosEditorHandle>(null);
 
   useEffect(() => {
@@ -67,13 +68,36 @@ export function EditorDemo() {
     } catch { setError('기기 저장 공간에 접근하지 못했습니다.'); }
   }
 
+  async function downloadMarkdown() {
+    const current = ref.current?.getDocument();
+    if (!current) return;
+    if (!current.ok) { setError(current.error.message); return; }
+    try {
+      const { exportDocumentToMarkdown } = await import('@cosmoslog/editor/renderer');
+      const result = exportDocumentToMarkdown(current.value);
+      if (!result.ok) { setError(result.error.message); return; }
+      const url = URL.createObjectURL(new Blob([result.value.markdown], { type: 'text/markdown;charset=utf-8' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'cosmoslog-document.md';
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 0);
+      setError('');
+      setExportMessage(result.value.warnings.includes('COLUMNS_FLATTENED')
+        ? '2열은 왼쪽·오른쪽 순서의 세로 본문으로 변환했습니다.'
+        : result.value.warnings.includes('CAPTION_AS_PARAGRAPH') ? '사진 캡션을 별도 문단으로 변환했습니다.' : 'Markdown 파일을 만들었습니다.');
+    } catch { setError('Markdown 파일을 만들지 못했습니다. 다시 시도해주세요.'); }
+  }
+
   return <section className="demo-workspace" aria-label="문서 작업 공간">
     <div className="demo-actions"><div className="demo-status" role="status"><span className="demo-status-dot" />{status}</div><div className="demo-action-buttons">
       <button type="button" onClick={newDocument}>새 문서</button>
+      <button type="button" onClick={downloadMarkdown} disabled={!initial}>Markdown 내보내기</button>
       <button type="button" onClick={showPreview} disabled={!initial || previewBusy}>{previewBusy ? '불러오는 중…' : '서버 미리보기'}</button>
       <button className="demo-save" type="button" onClick={save} disabled={!initial}>저장 <span aria-hidden="true">↗</span></button>
     </div></div>
     {error && <div className="demo-error" role="alert">{error}</div>}
+    {exportMessage && <p role="status" className="demo-export-message">{exportMessage}</p>}
     <div className="demo-paper">
       <div className="demo-paper-meta"><span>YOUR STORY</span><span>01</span></div>
       {initial ? <CosmosEditor key={documentId} ref={ref} initialDocument={initial} uploadImage={demoUpload}
