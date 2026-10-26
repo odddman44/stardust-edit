@@ -13,17 +13,22 @@
   container-type: inline-size;
 }
 .cosmos-editor *, .cosmos-document * { box-sizing: border-box; }
-.cosmos-document { min-width: 0; }
+.cosmos-document { min-width: 0; position: relative; white-space: break-spaces; }
 .cosmos-editor .cosmos-document { min-height: 360px; outline: none; padding: 12px 0 64px; }
 .cosmos-document > :first-child { margin-top: 0; }
 .cosmos-document p { margin: 0 0 1em; }
-.cosmos-document h1, .cosmos-document h2, .cosmos-document h3 { color: inherit; line-height: 1.4; letter-spacing: -.035em; }
+.cosmos-document h1, .cosmos-document h2, .cosmos-document h3 { color: inherit; font-weight: 650; line-height: 1.4; letter-spacing: -.035em; }
 .cosmos-document h1 { font-size: 2.1em; margin: 1.5em 0 .6em; }
 .cosmos-document h2 { font-size: 1.55em; margin: 1.6em 0 .65em; }
 .cosmos-document h3 { font-size: 1.2em; margin: 1.4em 0 .6em; }
 .cosmos-document a { color: var(--cosmos-accent); text-decoration: underline; text-underline-offset: 4px; }
 .cosmos-document ul, .cosmos-document ol { padding-left: 1.5em; margin: .5em 0 1.1em; }
+.cosmos-document ul { list-style-type: disc; }
+.cosmos-document ul ul { list-style-type: circle; }
+.cosmos-document ol { list-style-type: decimal; }
 .cosmos-document li > p { margin: .1em 0; }
+.cosmos-document li { position: relative; }
+.cosmos-document [contenteditable='false'] { white-space: normal; }
 .cosmos-document blockquote { margin: 1.3em 0; border-left: 2px solid var(--cosmos-accent); padding: .2em 1.2em; color: var(--cosmos-muted); }
 .cosmos-document pre { background: color-mix(in srgb, var(--cosmos-text) 5%, transparent); border: 1px solid var(--cosmos-line); border-radius: 8px; overflow: auto; padding: 18px; max-width: 100%; line-height: 1.65; }
 .cosmos-document code { font-family: 'SFMono-Regular', Consolas, monospace; font-size: .87em; background: color-mix(in srgb, var(--cosmos-text) 5%, transparent); border-radius: 3px; padding: .1em .3em; }
@@ -34,6 +39,10 @@
 .cosmos-document li[data-type='taskItem'] > div { min-width: 0; flex: 1; }
 .cosmos-document li[data-type='taskItem'] input { accent-color: var(--cosmos-accent); }
 .cosmos-document .ProseMirror-selectednode { outline: 2px solid var(--cosmos-accent); outline-offset: 4px; }
+.cosmos-editor .ProseMirror-gapcursor { display: none; pointer-events: none; position: absolute; }
+.cosmos-editor .ProseMirror-gapcursor:after { content: ''; position: absolute; display: block; top: -2px; width: 20px; border-top: 1px solid var(--cosmos-text); animation: cosmos-cursor-blink 1.1s steps(2, start) infinite; }
+.cosmos-editor .ProseMirror-focused .ProseMirror-gapcursor { display: block; }
+@keyframes cosmos-cursor-blink { to { visibility: hidden; } }
 .cosmos-editor button, .cosmos-editor input { font: inherit; }
 .cosmos-editor button { cursor: pointer; }
 .cosmos-editor button:focus-visible, .cosmos-editor input:focus-visible { outline: 2px solid var(--cosmos-accent); outline-offset: 3px; }

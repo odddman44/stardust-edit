@@ -8,6 +8,8 @@ test('블록 메뉴에서 현재 문단을 위로 이동한다', async ({ page, 
   await body.press('Enter');
   await page.keyboard.insertText('둘째 문단');
   await body.press(browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab');
+  await expect(page.getByRole('button', { name: '사진 추가', exact: true })).toBeFocused();
+  await page.keyboard.press(browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab');
   await expect(page.getByRole('button', { name: '블록 메뉴', exact: true })).toBeFocused();
   await page.keyboard.press('Enter');
   await page.keyboard.press('ArrowUp');

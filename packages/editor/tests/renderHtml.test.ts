@@ -24,6 +24,11 @@ describe('서버 읽기 렌더러', () => {
     expect(result.ok && result.value).not.toContain('<script>');
   });
 
+  it('읽기 화면의 체크박스는 변경할 수 없게 출력한다', () => {
+    const result = renderDocumentToHtml(document);
+    expect(result.ok && result.value).toMatch(/<input[^>]*disabled/);
+  });
+
   it('위험한 링크를 출력하지 않는다', () => {
     const input = { version: 1, content: { type: 'doc', content: [
       { type: 'paragraph', content: [{ type: 'text', text: '링크', marks: [{ type: 'link', attrs: { href: 'javascript:alert(1)' } }] }] }

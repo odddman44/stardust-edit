@@ -20,6 +20,6 @@ export function createBaseExtensions(): Extensions {
     }),
     RootDocument, Columns, Column, ImageNode,
     TaskList,
-    TaskItem.configure({ nested: true })
+    TaskItem.configure({ nested: true, HTMLAttributes: { 'data-type': 'taskItem' } })
   ];
 }

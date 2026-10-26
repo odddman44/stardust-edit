@@ -46,6 +46,7 @@ export function CosmosEditor(props: CosmosEditorProps) {
     })],
     content: initial.ok ? initial.value.content : createEmptyDocument().content,
     immediatelyRender: false,
+    injectCSS: false,
     editable: initial.ok,
     editorProps: {
       transformPastedHTML: sanitizePastedHtml,

@@ -19,11 +19,11 @@ test('2열 작성·이동·해제·저장·서버 표시', async ({ page }) => {
   const editorInset = await body.locator('.cosmos-column').first().evaluate(element => getComputedStyle(element).padding);
   const readerInset = await preview.locator('.cosmos-column').first().evaluate(element => getComputedStyle(element).padding);
   expect(readerInset).toBe(editorInset);
-  await body.locator('.cosmos-column').first().locator('h1').click();
+  await body.locator('.cosmos-column').first().locator(':scope > :first-child').click();
   await page.getByRole('button', { name: '블록 메뉴', exact: true }).click();
   await page.getByRole('menuitem', { name: '열 해제' }).click();
   await expect(body.locator('.cosmos-columns')).toHaveCount(0);
-  await expect(body.locator('h1, p')).toHaveText(['왼쪽 이야기', '오른쪽 이야기']);
+  await expect(body.locator(':scope > *')).toHaveText(['왼쪽 이야기', '오른쪽 이야기']);
 });
 
 test('넓은 화면에서도 좁은 부모 안에서는 세로로 표시한다', async ({ page }) => {

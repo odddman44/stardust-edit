@@ -2,6 +2,7 @@
 /*-handoff.md
 .DS_Store
 node_modules/
+.pnpm-store/
 dist/
 .next/
 coverage/

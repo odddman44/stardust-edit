@@ -25,7 +25,9 @@ test('클립보드 이미지 파일도 같은 업로드 흐름으로 처리한�
   await body.evaluate(element => {
     const data = new DataTransfer();
     data.items.add(new File(['image'], 'clipboard.png', { type: 'image/png' }));
-    element.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }));
+    const event = new Event('paste', { bubbles: true, cancelable: true });
+    Object.defineProperty(event, 'clipboardData', { value: data });
+    element.dispatchEvent(event);
   });
   await expect(body.locator('img')).toHaveCount(1);
 });
@@ -38,7 +40,9 @@ test('이미지 파일을 본문에 드롭하여 추가한다', async ({ page })
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(new File(['image'], 'drop.png', { type: 'image/png' }));
     const rect = element.getBoundingClientRect();
-    element.dispatchEvent(new DragEvent('drop', { dataTransfer, clientX: rect.left + 30, clientY: rect.top + 20, bubbles: true, cancelable: true }));
+    const event = new DragEvent('drop', { clientX: rect.left + 30, clientY: rect.top + 20, bubbles: true, cancelable: true });
+    Object.defineProperty(event, 'dataTransfer', { value: dataTransfer });
+    element.dispatchEvent(event);
   });
   await expect(body.locator('img')).toHaveCount(1);
 });
