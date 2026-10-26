@@ -1,0 +1,11 @@
+/.local/
+/*-handoff.md
+.DS_Store
+node_modules/
+dist/
+.next/
+coverage/
+test-results/
+playwright-report/
+*.tsbuildinfo
+*.tgz
