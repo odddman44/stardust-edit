@@ -26,6 +26,7 @@ button { font-family: inherit; }
 .demo-paper-meta { display: flex; justify-content: space-between; font-size: 9px; color: var(--demo-muted); letter-spacing: .14em; margin-bottom: 35px; }
 .demo-paper-hint { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--demo-muted); padding-top: 20px; border-top: 1px solid var(--demo-line); }
 .demo-paper-hint kbd { font: inherit; border: 1px solid var(--demo-line); border-radius: 3px; padding: 0 4px; }
+.demo-upload-note { font-size: 10px; color: var(--demo-muted); margin: 10px 0 0; line-height: 1.7; }
 .demo-error { background: #ad372310; color: var(--demo-accent); padding: 16px 20px; font-size: 13px; margin-bottom: 12px; border: 1px solid #ad372340; border-radius: 5px; }
 .demo-preview { background: var(--demo-paper); margin-top: 28px; padding: 30px 58px; border: 1px solid var(--demo-line); }
 .demo-preview-label { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; color: var(--demo-muted); padding-bottom: 25px; }

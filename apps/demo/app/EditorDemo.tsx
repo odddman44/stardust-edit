@@ -6,6 +6,7 @@ import type { CosmosDocument } from '@cosmoslog/editor';
 import { CosmosEditor } from '@cosmoslog/editor/react';
 import type { CosmosEditorHandle } from '@cosmoslog/editor/react';
 import { sampleDocument } from '../lib/sampleDocument';
+import { demoUpload } from '../lib/demoUpload';
 import { renderPreview } from './actions';
 
 const storageKey = 'cosmoslog-demo-document';
@@ -75,11 +76,12 @@ export function EditorDemo() {
     {error && <div className="demo-error" role="alert">{error}</div>}
     <div className="demo-paper">
       <div className="demo-paper-meta"><span>YOUR STORY</span><span>01</span></div>
-      {initial ? <CosmosEditor key={documentId} ref={ref} initialDocument={initial}
-        onChange={() => { setStatus('저장하지 않은 변경 사항'); setPreview(null); }}
+      {initial ? <CosmosEditor key={documentId} ref={ref} initialDocument={initial} uploadImage={demoUpload}
+        onChange={(_document, info) => { setStatus(info.pendingUploadCount ? `사진 ${info.pendingUploadCount}개 업로드 중` : info.failedUploadCount ? '사진 업로드를 확인해주세요' : '저장하지 않은 변경 사항'); setPreview(null); }}
         onError={failure => setError(failure.message)} />
         : !error && <p className="demo-loading">문서를 준비하고 있어요…</p>}
       <div className="demo-paper-hint">가볍게 시작하세요. <kbd>#</kbd> 제목 <span>·</span> <kbd>-</kbd> 목록</div>
+      <p className="demo-upload-note">사진 업로드는 샘플 이미지로 시연합니다. 선택한 원본 파일은 서버에 저장되지 않습니다.</p>
     </div>
     {preview !== null && <section className="demo-preview" aria-label="읽기 미리보기"><div className="demo-preview-label">읽기 미리보기 <span>서버에서 렌더링한 문서</span></div><div dangerouslySetInnerHTML={{ __html: preview }} /></section>}
   </section>;

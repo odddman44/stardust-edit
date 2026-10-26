@@ -2,6 +2,7 @@ import type { Extensions } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import { TaskItem, TaskList } from '@tiptap/extension-list';
 import { isSafeLinkUrl } from '../document/urlPolicy.js';
+import { ImageNode } from './image.js';
 
 export function createBaseExtensions(): Extensions {
   return [
@@ -15,6 +16,7 @@ export function createBaseExtensions(): Extensions {
         HTMLAttributes: { target: '_blank', rel: 'noopener noreferrer nofollow' }
       }
     }),
+    ImageNode,
     TaskList,
     TaskItem.configure({ nested: true })
   ];

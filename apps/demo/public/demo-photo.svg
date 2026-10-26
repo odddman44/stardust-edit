@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" fill="none">
+  <rect width="960" height="640" fill="#e4dbcc"/>
+  <path d="M0 0h960v440H0z" fill="#d4cdbf"/>
+  <rect x="70" y="40" width="530" height="370" rx="3" fill="#b2b7a4"/>
+  <path d="M80 50h510v350H80z" fill="#edf0e5"/>
+  <path d="M80 235c65-115 150-90 215-145 115 100 190 60 295 10v300H80z" fill="#b7c0a9"/>
+  <path d="M80 300c120-45 210 75 330-25 60-50 110-20 180-45v170H80z" fill="#9da991"/>
+  <path d="M338 50v350M80 225h510" stroke="#c4b8a4" stroke-width="12"/>
+  <path d="M0 440h960v200H0z" fill="#b69470"/>
+  <path d="m0 440 960 35M0 535l960 40" stroke="#aa8764" stroke-width="2"/>
+  <ellipse cx="480" cy="525" rx="152" ry="41" fill="#997753" opacity=".25"/>
+  <ellipse cx="460" cy="510" rx="130" ry="35" fill="#f0e7d7"/>
+  <path d="M542 427c66-12 70 70 9 72" stroke="#f2ecdf" stroke-width="22"/>
+  <path d="M367 410h188l-18 80c-14 36-127 37-151 0z" fill="#faf5e9"/>
+  <ellipse cx="461" cy="411" rx="94" ry="28" fill="#e6dac7"/>
+  <ellipse cx="461" cy="413" rx="78" ry="20" fill="#79553c"/>
+  <path d="M437 409c19-22 43-20 53-4-16 17-30 15-53 4Z" fill="#d4b58c"/>
+  <path d="m674 384 104 10-4 94-114-10z" fill="#e9e2d2"/>
+  <path d="m678 406 78 7m-80 13 74 7m-76 13 51 5" stroke="#b5aa96" stroke-width="3"/>
+  <text x="72" y="585" fill="#f3ebdc" font-family="sans-serif" font-size="12" letter-spacing="4">A SLOW AFTERNOON</text>
+</svg>
