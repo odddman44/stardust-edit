@@ -3,6 +3,11 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import { createEmptyDocument } from '../index.js';
 import { parseDocument } from '../document/parseDocument.js';
 import { createBaseExtensions } from '../extensions/baseExtensions.js';
+import { createSlashMenu } from '../extensions/slashMenu.js';
+import { sanitizePastedHtml } from '../extensions/pastePolicy.js';
+import DragHandle from '@tiptap/extension-drag-handle';
+import { BlockMenu } from './BlockMenu.js';
+import { FormatToolbar } from './FormatToolbar.js';
 import type { CosmosEditorProps } from './types.js';
 
 export function CosmosEditor(props: CosmosEditorProps) {
@@ -11,11 +16,20 @@ export function CosmosEditor(props: CosmosEditorProps) {
   callbacks.current = props;
   const reportedError = useRef(false);
   const editor = useEditor({
-    extensions: createBaseExtensions(),
+    extensions: [...createBaseExtensions(), createSlashMenu(), DragHandle.configure({
+      render: () => {
+        const handle = document.createElement('div');
+        handle.className = 'cosmos-editor cosmos-drag-handle';
+        handle.textContent = '⠿';
+        handle.setAttribute('aria-hidden', 'true');
+        return handle;
+      }
+    })],
     content: initial.ok ? initial.value.content : createEmptyDocument().content,
     immediatelyRender: false,
     editable: initial.ok,
     editorProps: {
+      transformPastedHTML: sanitizePastedHtml,
       attributes: { class: 'cosmos-document', role: 'textbox', 'aria-label': '문서 본문', 'aria-multiline': 'true' }
     },
     onUpdate: ({ editor: instance }) => {
@@ -42,6 +56,7 @@ export function CosmosEditor(props: CosmosEditorProps) {
 
   if (!initial.ok) return <div className="cosmos-editor" role="alert">{initial.error.message}</div>;
   return <div className={['cosmos-editor', props.className].filter(Boolean).join(' ')}>
+    {editor && <><BlockMenu editor={editor} /><FormatToolbar editor={editor} /></>}
     <EditorContent editor={editor} />
   </div>;
 }

@@ -37,6 +37,26 @@
 .cosmos-editor button, .cosmos-editor input { font: inherit; }
 .cosmos-editor button { cursor: pointer; }
 .cosmos-editor button:focus-visible, .cosmos-editor input:focus-visible { outline: 2px solid var(--cosmos-accent); outline-offset: 3px; }
+.cosmos-block-control { position: relative; margin: 0 0 10px; }
+.cosmos-block-trigger { border: 0; border-radius: 5px; background: transparent; color: var(--cosmos-muted); font-size: 13px !important; padding: 8px; min-height: 40px; }
+.cosmos-block-trigger:hover { background: color-mix(in srgb, var(--cosmos-text) 5%, transparent); }
+.cosmos-block-trigger span { margin-left: 4px; }
+.cosmos-block-menu, .cosmos-slash-menu { background: var(--cosmos-surface); border: 1px solid var(--cosmos-line); border-radius: 9px; padding: 6px; box-shadow: 0 8px 30px #0002; min-width: 200px; max-height: 350px; overflow-y: auto; }
+.cosmos-block-menu { position: absolute; z-index: 30; top: 42px; left: 0; }
+.cosmos-block-menu button, .cosmos-slash-menu button { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 20px; text-align: left; border: 0; border-radius: 5px; background: transparent; color: var(--cosmos-text); padding: 8px 12px; font-size: 13px; min-height: 40px; }
+.cosmos-block-menu button:hover, .cosmos-slash-menu button:hover, .cosmos-slash-menu [aria-selected='true'] { background: color-mix(in srgb, var(--cosmos-text) 6%, transparent); }
+.cosmos-menu-label { padding: 5px 12px; font-size: 10px; color: var(--cosmos-muted); letter-spacing: .08em; }
+.cosmos-menu-hint { color: var(--cosmos-muted); font-size: 11px; }
+.cosmos-menu-empty { padding: 12px; font-size: 12px; }
+.cosmos-menu-divider { border-top: 1px solid var(--cosmos-line); margin: 5px 0; }
+.cosmos-menu-portal { z-index: 50; container-type: normal; }
+.cosmos-format-menu { display: flex; gap: 2px; align-items: center; background: var(--cosmos-surface); border: 1px solid var(--cosmos-line); box-shadow: 0 4px 18px #0002; padding: 4px; border-radius: 7px; container-type: normal; }
+.cosmos-format-menu > button { min-width: 38px; min-height: 38px; padding: 5px 9px; border: 0; border-radius: 4px; background: transparent; color: var(--cosmos-text); font-size: 13px; }
+.cosmos-format-menu > button:hover, .cosmos-format-menu > button[aria-pressed='true'] { background: color-mix(in srgb, var(--cosmos-text) 8%, transparent); }
+.cosmos-link-form { position: absolute; top: 100%; left: 0; background: var(--cosmos-surface); border: 1px solid var(--cosmos-line); border-radius: 7px; padding: 12px; width: 270px; box-shadow: 0 4px 18px #0002; font-size: 12px; }
+.cosmos-link-form input { width: 100%; border: 1px solid var(--cosmos-line); border-radius: 4px; padding: 8px; margin: 5px 0; background: var(--cosmos-surface); color: var(--cosmos-text); }
+.cosmos-link-form button { min-height: 36px; background: var(--cosmos-text); color: var(--cosmos-surface); border: 0; border-radius: 4px; padding: 6px 12px; }
+.cosmos-drag-handle { color: var(--cosmos-muted); cursor: grab; padding: 3px 7px; line-height: 1.5; container-type: normal; }
 @media (prefers-color-scheme: dark) {
   .cosmos-editor, .cosmos-document {
     --cosmos-text: #e9e4dc;
